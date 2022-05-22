@@ -50,7 +50,7 @@
 
               <div class="sheet__content diameter">
                 <label
-                  v-for="SIZES in sizes"
+                  v-for="SIZES in size"
                   :key="SIZES.id"
                   :class="`diameter__input diameter__input--${SIZES.value}`"
                 >
@@ -168,7 +168,7 @@ export default {
       ingredients: pizza.ingredients.map((ingredients) =>
         normalizeData(ingredients, INGREDIENTS)
       ),
-      size: pizza.sizes.map((sizes) => normalizeData(sizes, SIZES)),
+      size: pizza.sizes.map((size) => normalizeData(size, SIZES)),
       sauces: pizza.sauces.map((sauces) => normalizeData(sauces, SAUCES)),
     };
   },
