@@ -27,19 +27,19 @@
               <h2 class="title title--small sheet__title">Выберите тесто</h2>
               <div class="sheet__content dough">
                 <label
-                  v-for="DOUGH in dough"
-                  :class="`dough__input dough__input--${DOUGH.value}`"
-                  :key="DOUGH.id"
+                  v-for="dough in changeDataDough"
+                  :class="`dough__input dough__input--${dough.value}`"
+                  :key="dough.id"
                 >
                   <input
                     type="radio"
                     name="dought"
-                    :value="DOUGH.value"
-                    :class="visually - hidden"
-                    :checked="DOUGH.isChecked"
+                    :value="dough.value"
+                    class="visually - hidden"
+                    :checked="dough.isChecked"
                   />
-                  <b>{{ DOUGH.name }}</b>
-                  <span>{{ DOUGH.description }}</span>
+                  <b>{{ dough.name }}</b>
+                  <span>{{ dough.description }}</span>
                 </label>
               </div>
             </div>
@@ -50,18 +50,18 @@
 
               <div class="sheet__content diameter">
                 <label
-                  v-for="SIZES in size"
-                  :key="SIZES.id"
-                  :class="`diameter__input diameter__input--${SIZES.value}`"
+                  v-for="size in changeDataSize"
+                  :key="size.id"
+                  :class="`diameter__input diameter__input--${size.value}`"
                 >
                   <input
                     type="radio"
                     name="diameter"
-                    value="SIZES.value"
-                    :checked="SIZES.isChecked"
+                    :value="size.value"
+                    :checked="size.isChecked"
                     class="visually-hidden"
                   />
-                  <span>{{ SIZES.name }}</span>
+                  <span>{{ size.name }}</span>
                 </label>
               </div>
             </div>
@@ -75,29 +75,29 @@
                 <div class="ingredients__sauce">
                   <p>Основной соус:</p>
                   <label
-                    v-for="SAUCES in sauces"
-                    :key="SAUCES.id"
+                    v-for="sauce in changeDataSauce"
+                    :key="sauce.id"
                     class="radio ingredients__input"
                   >
                     <input
                       type="radio"
                       name="sauce"
-                      value="SAUCES.value"
-                      checked="SAUCES.isChecked"
+                      :value="sauce.value"
+                      :checked="sauce.isChecked"
                     />
-                    <span>{{ SAUCES.name }}</span>
+                    <span>{{ sauce.name }}</span>
                   </label>
                 </div>
                 <div class="ingredients__filling">
                   <p>Начинка:</p>
                   <ul class="ingredients__list">
                     <li
-                      v-for="INGREDIENTS in ingredients"
-                      :key="INGREDIENTS.id"
+                      v-for="ingredient in changeDataIngredients"
+                      :key="ingredient.id"
                       class="ingredients__item"
                     >
-                      <span :class="`filling filling--${INGREDIENTS.value}`">
-                        {{ INGREDIENTS.name }}
+                      <span :class="`filling filling--${ingredient.value}`">
+                        {{ ingredient.name }}
                       </span>
                       <div class="counter counter--orange ingredients__counter">
                         <button
@@ -158,19 +158,33 @@
 <script>
 import pizza from "@/static/pizza.json";
 import { normalizeData } from "../common/helpers";
-import { SIZES, INGREDIENTS, DOUGH, SAUCES } from "../common/constants";
+import { DOUGH, INGREDIENTS, SAUCES, SIZES } from "../common/constants";
 
 export default {
   name: "Index",
   data() {
     return {
-      dough: pizza.dough.map((dough) => normalizeData(dough, DOUGH)),
-      ingredients: pizza.ingredients.map((ingredients) =>
-        normalizeData(ingredients, INGREDIENTS)
-      ),
-      size: pizza.sizes.map((size) => normalizeData(size, SIZES)),
-      sauces: pizza.sauces.map((sauces) => normalizeData(sauces, SAUCES)),
+      dough: pizza.dough,
+      ingredients: pizza.ingredients,
+      sizes: pizza.sizes,
+      sauces: pizza.sauces,
     };
+  },
+  computed: {
+    changeDataDough: function () {
+      return this.dough.map((dough) => normalizeData(dough, DOUGH));
+    },
+    changeDataIngredients: function () {
+      return this.ingredients.map((ingredients) =>
+        normalizeData(ingredients, INGREDIENTS)
+      );
+    },
+    changeDataSize: function () {
+      return this.sizes.map((sizes) => normalizeData(sizes, SIZES));
+    },
+    changeDataSauces: function () {
+      return this.sauces.map((sauces) => normalizeData(sauces, SAUCES));
+    },
   },
 };
 </script>
