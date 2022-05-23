@@ -35,7 +35,7 @@
                     type="radio"
                     name="dought"
                     :value="dough.value"
-                    class="visually - hidden"
+                    class="visually-hidden"
                     :checked="dough.isChecked"
                   />
                   <b>{{ dough.name }}</b>
@@ -75,7 +75,7 @@
                 <div class="ingredients__sauce">
                   <p>Основной соус:</p>
                   <label
-                    v-for="sauce in changeDataSauce"
+                    v-for="sauce in changeDataSauces"
                     :key="sauce.id"
                     class="radio ingredients__input"
                   >
