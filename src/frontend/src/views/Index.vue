@@ -27,7 +27,7 @@
               <h2 class="title title--small sheet__title">Выберите тесто</h2>
               <div class="sheet__content dough">
                 <label
-                  v-for="dough in changeDataDough"
+                  v-for="dough in dough"
                   :class="`dough__input dough__input--${dough.value}`"
                   :key="dough.id"
                 >
@@ -50,7 +50,7 @@
 
               <div class="sheet__content diameter">
                 <label
-                  v-for="size in changeDataSize"
+                  v-for="size in sizes"
                   :key="size.id"
                   :class="`diameter__input diameter__input--${size.value}`"
                 >
@@ -75,7 +75,7 @@
                 <div class="ingredients__sauce">
                   <p>Основной соус:</p>
                   <label
-                    v-for="sauce in changeDataSauces"
+                    v-for="sauce in sauces"
                     :key="sauce.id"
                     class="radio ingredients__input"
                   >
@@ -92,7 +92,7 @@
                   <p>Начинка:</p>
                   <ul class="ingredients__list">
                     <li
-                      v-for="ingredient in changeDataIngredients"
+                      v-for="ingredient in ingredients"
                       :key="ingredient.id"
                       class="ingredients__item"
                     >
@@ -162,28 +162,20 @@ import { DOUGH, INGREDIENTS, SAUCES, SIZES } from "../common/constants";
 
 export default {
   name: "Index",
-  data() {
-    return {
-      dough: pizza.dough,
-      ingredients: pizza.ingredients,
-      sizes: pizza.sizes,
-      sauces: pizza.sauces,
-    };
-  },
   computed: {
-    changeDataDough: function () {
-      return this.dough.map((dough) => normalizeData(dough, DOUGH));
+    dough: function () {
+      return pizza.dough.map((dough) => normalizeData(dough, DOUGH));
     },
-    changeDataIngredients: function () {
-      return this.ingredients.map((ingredients) =>
+    ingredients: function () {
+      return pizza.ingredients.map((ingredients) =>
         normalizeData(ingredients, INGREDIENTS)
       );
     },
-    changeDataSize: function () {
-      return this.sizes.map((sizes) => normalizeData(sizes, SIZES));
+    sizes: function () {
+      return pizza.sizes.map((sizes) => normalizeData(sizes, SIZES));
     },
-    changeDataSauces: function () {
-      return this.sauces.map((sauces) => normalizeData(sauces, SAUCES));
+    sauces: function () {
+      return pizza.sauces.map((sauces) => normalizeData(sauces, SAUCES));
     },
   },
 };
