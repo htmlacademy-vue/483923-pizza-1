@@ -22,7 +22,7 @@
       <form action="#" method="post">
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
-          <div class="content__dough">
+          <!--<div class="content__dough">
             <div class="sheet">
               <h2 class="title title--small sheet__title">Выберите тесто</h2>
               <div class="sheet__content dough">
@@ -43,29 +43,17 @@
                 </label>
               </div>
             </div>
-          </div>
-          <div class="content__diameter">
-            <div class="sheet">
-              <h2 class="title title--small sheet__title">Выберите размер</h2>
-
-              <div class="sheet__content diameter">
-                <label
-                  v-for="size in sizes"
-                  :key="size.id"
-                  :class="`diameter__input diameter__input--${size.value}`"
-                >
-                  <input
-                    type="radio"
-                    name="diameter"
-                    :value="size.value"
-                    :checked="size.isChecked"
-                    class="visually-hidden"
-                  />
-                  <span>{{ size.name }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
+          </div> -->
+          <BuilderDoughSelector
+            :doughList="dough"
+            :checkedDough="dough"
+            @changeDough="changeDough"
+          />
+          <BuilderSizeSelector
+            :sizes="sizes"
+            :checkedSize="sizes"
+            @changeSize="changeSize"
+          />
           <div class="content__ingredients">
             <div class="sheet">
               <h2 class="title title--small sheet__title">
@@ -88,41 +76,7 @@
                     <span>{{ sauce.name }}</span>
                   </label>
                 </div>
-                <div class="ingredients__filling">
-                  <p>Начинка:</p>
-                  <ul class="ingredients__list">
-                    <li
-                      v-for="ingredient in ingredients"
-                      :key="ingredient.id"
-                      class="ingredients__item"
-                    >
-                      <span :class="`filling filling--${ingredient.value}`">
-                        {{ ingredient.name }}
-                      </span>
-                      <div class="counter counter--orange ingredients__counter">
-                        <button
-                          type="button"
-                          class="counter__button counter__button--minus"
-                          disabled
-                        >
-                          <span class="visually-hidden">Меньше</span>
-                        </button>
-                        <input
-                          type="text"
-                          name="counter"
-                          class="counter__input"
-                          value="0"
-                        />
-                        <button
-                          type="button"
-                          class="counter__button counter__button--plus"
-                        >
-                          <span class="visually-hidden">Больше</span>
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                <BuilderIngredientsSelector :ingredients="ingredients" />
               </div>
             </div>
           </div>
@@ -159,9 +113,17 @@
 import pizza from "@/static/pizza.json";
 import { normalizeData } from "../common/helpers";
 import { DOUGH, INGREDIENTS, SAUCES, SIZES } from "../common/constants";
+import BuilderIngredientsSelector from "../modules/builder/components/BuilderIngredientsSelector.vue";
+import BuilderDoughSelector from "../modules/builder/components/BuilderDoughSelector.vue";
+import BuilderSizeSelector from "../modules/builder/components/BuilderSizeSelector.vue";
 
 export default {
   name: "Index",
+  components: {
+    BuilderIngredientsSelector,
+    BuilderDoughSelector,
+    BuilderSizeSelector,
+  },
   computed: {
     dough: function () {
       return pizza.dough.map((dough) => normalizeData(dough, DOUGH));
@@ -176,6 +138,16 @@ export default {
     },
     sauces: function () {
       return pizza.sauces.map((sauces) => normalizeData(sauces, SAUCES));
+    },
+  },
+  methods: {
+    changeDought(id) {
+      this.changeDought = id;
+      console.log(this.changeDought);
+    },
+    changeSize(id) {
+      this.changeSize = id;
+      console.log(this.changeSize);
     },
   },
 };
