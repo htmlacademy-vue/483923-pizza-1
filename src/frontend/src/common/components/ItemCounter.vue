@@ -3,8 +3,8 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
-      @click="$emit('decrementCount', ingredient.id)"
-      :disabled="isMinDisabled"
+      @click="$emit('changeCount', value - 1)"
+      :disabled="value === min"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -12,14 +12,15 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="ingredient.count"
+      :value="value"
       readonly
+      @input="$emit('input', Number($event.target.value))"
     />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      @click="$emit('incrementCount', ingredient.id)"
-      :disabled="isMaxDisabled"
+      @click="$emit('changeCount', value + 1)"
+      :disabled="value === max"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -27,22 +28,18 @@
 </template>
 
 <script>
-import { INGREDIENT_MIN_COUNT, INGREDIENT_MAX_COUNT } from "@/common/constants";
-
 export default {
   name: "ItemCounter",
   props: {
-    ingredient: {
-      type: Object,
-      required: true,
+    value: {
+      type: Number,
+      default: 0,
     },
-  },
-  computed: {
-    isMinDisabled() {
-      return this.ingredient.count === INGREDIENT_MIN_COUNT;
+    min: {
+      type: Number,
     },
-    isMaxDisabled() {
-      return this.ingredient.count === INGREDIENT_MAX_COUNT;
+    max: {
+      type: Number,
     },
   },
 };

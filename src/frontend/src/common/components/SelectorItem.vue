@@ -1,30 +1,34 @@
 <template>
-    <AppDrag :transfer-data="ingredient" :draggable="draggable">
-        <span :class="draggable && 'item--draggable'">
-            {{ingredient.name}}
-        </span>
-    </AppDrag>
+  <AppDrag :transfer-data="ingredient" :draggable="isDraggable">
+    <span class="filling" :class="`filling--${ingredient.value}`">
+      {{ ingredient.name }}
+    </span>
+  </AppDrag>
 </template>
 
 <script>
-import AppDrag from './AppDrag.vue';
-import { INGREDIENT_MAX_COUNT } from '../constants';
-
+import AppDrag from "@/common/components/AppDrag";
+import { INGREDIENT_MAX_COUNT } from "../constants";
 export default {
-    name: "SelectorItem",
-    components: {
-        AppDrag
+  name: "SelectorItem",
+  components: {
+    AppDrag,
+  },
+  props: {
+    ingredient: {
+      type: Object,
+      required: true,
     },
-    props: {
-        ingredient: {
-            type: Object,
-            required: true,
-        },
+  },
+  computed: {
+    isDraggable() {
+      return this.ingredient.count < INGREDIENT_MAX_COUNT;
     },
-    computed: {
-        draggable() {
-            return this.ingredient.count < INGREDIENT_MAX_COUNT;  
-        },
-    },
+  },
 };
 </script>
+<style lang="scss" scoped>
+.filling:hover {
+  cursor: grab;
+}
+</style>

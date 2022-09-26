@@ -1,13 +1,7 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ this.totalPrice }} ₽</p>
-    <button
-      type="button"
-      class="button"
-      :disabled="disabled"
-    >
-      Готовьте!
-    </button>
+    <button type="button" class="button" :disabled="disabled">Готовьте!</button>
   </div>
 </template>
 <script>

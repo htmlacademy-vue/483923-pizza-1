@@ -1,8 +1,8 @@
 <template>
-  <label :class="radio">
+  <label>
     <input
       type="radio"
-      name="name"
+      :name="name"
       :value="value"
       :checked="checked"
       class="visually-hidden"

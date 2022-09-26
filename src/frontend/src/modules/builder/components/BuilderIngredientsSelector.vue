@@ -1,48 +1,75 @@
 <template>
-  <div class="ingredients__filling">
-    <p>Начинка:</p>
-    <ul class="ingredients__list">
-      <li
-        v-for="ingredient in ingredients"
-        :key="ingredient.id"
-        class="ingredients__item"
-      >
-        <AppDrop @drop="$emit('drop', $event)">
-          <AppDrag :transfer-data="ingredient" @drop="moveIngredient">
-            <span :class="`filling filling--${ingredient.value}`">
-              {{ ingredient.name }}
-            </span>
-          </AppDrag>
-        </AppDrop>
-        <ItemCounter @changeCount="changeCount($event, ingredient)" />
-      </li>
-    </ul>
+  <div class="content__ingredients">
+    <div class="sheet">
+      <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
+      <div class="sheet__content ingredients">
+        <div class="ingredients__sauce">
+          <p>Основной соус:</p>
+          <RadioButton
+            v-for="sauce in sauces"
+            :key="sauce.id"
+            class="radio ingredients__input"
+            type="radio"
+            name="sauce"
+            :value="sauce.value"
+            :checked="sauce.value === checkedSauce.id"
+            @change="$emit('changeSauce', sauce.value)"
+            :description="sauce.name"
+          >
+          </RadioButton>
+        </div>
+        <div class="ingredients__filling">
+          <p>Начинка:</p>
+          <ul class="ingredients__list">
+            <li
+              v-for="ingredient in ingredients"
+              :key="ingredient.id"
+              class="ingredients__item"
+            >
+              <SelectorItem :ingredient="ingredient" />
+              <ItemCounter
+                class="ingredients__counter"
+                :value="ingredient.count"
+                :min="0"
+                :max="3"
+                @changeCount="
+                  $emit('changeCount', {
+                    value: ingredient.value,
+                    count: $event,
+                  })
+                "
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import ItemCounter from "@/common/components/ItemCounter.vue";
-import AppDrop from "../../../common/components/AppDrop.vue";
-import AppDrag from "../../../common/components/AppDrag.vue";
+import RadioButton from "../../../common/components/RadioButton.vue";
+import SelectorItem from "../../../common/components/SelectorItem.vue";
 export default {
   name: "BuilderIngredientsSelector",
   components: {
     ItemCounter,
-    AppDrop,
-    AppDrag,
+    RadioButton,
+    SelectorItem,
   },
   props: {
     ingredients: {
       type: Array,
       required: true,
     },
-  },
-  methods: {
-    changeCount(countValue, ingredient) {
-      return this.$emit("changeCount", { countValue, ingredient });
+    sauces: {
+      type: Array,
+      required: true,
     },
-    moveIngredient() {
-      console.log("test drag drop");
+    checkedSauce: {
+      type: Object,
+      required: true,
     },
   },
 };
